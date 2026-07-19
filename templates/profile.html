@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}{{ profile_user['display_name'] }} — SoundWave{% endblock %}
+{% block content %}
+
+<div class="profile-header">
+  <div class="profile-avatar" style="background:{{ profile_user['avatar_color'] }}">
+    {{ profile_user['display_name'][0]|upper }}
+  </div>
+  <div>
+    <h1 class="profile-name">{{ profile_user['display_name'] }}</h1>
+    <p class="profile-handle">@{{ profile_user['username'] }}</p>
+    {% if profile_user['bio'] %}<p class="profile-bio">{{ profile_user['bio'] }}</p>{% endif %}
+    <div class="profile-stats">
+      <span><b>{{ songs|length }}</b> tracks</span>
+      <span><b>{{ followers }}</b> followers</span>
+      <span><b>{{ following }}</b> following</span>
+    </div>
+  </div>
+  <div class="profile-actions">
+    {% if me and me['id'] == profile_user['id'] %}
+      <a href="{{ url_for('settings') }}" class="btn">Edit profile</a>
+    {% elif me %}
+      <form method="post" action="{{ url_for('follow', username=profile_user['username']) }}">
+        <button type="submit" class="btn {{ 'btn-primary' if not is_following else '' }}">
+          {{ 'Following' if is_following else 'Follow' }}
+        </button>
+      </form>
+    {% endif %}
+  </div>
+</div>
+
+<div class="section-head"><h2>Tracks</h2></div>
+{% if songs %}
+<div class="song-grid">
+  {% for song in songs %}
+    {% include "_song_card.html" %}
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state"><h3>No tracks yet</h3></div>
+{% endif %}
+
+{% endblock %}

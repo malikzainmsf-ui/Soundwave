@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Your playlists — SoundWave{% endblock %}
+{% block content %}
+
+<div class="section-head"><h2>Your playlists</h2></div>
+
+<form method="post" action="{{ url_for('new_playlist') }}" style="display:flex; gap:10px; margin-bottom:28px; max-width:420px;">
+  <input type="text" name="title" placeholder="New playlist name" required
+         style="flex:1; padding:10px 14px; border-radius:20px; border:1px solid var(--border); background:var(--surface); color:var(--text);">
+  <button type="submit" class="btn btn-primary">Create</button>
+</form>
+
+{% if playlists %}
+<div class="track-list">
+  {% for pl in playlists %}
+  <div class="track-row">
+    <div class="track-info">
+      <a class="s-title" href="{{ url_for('playlist_detail', playlist_id=pl['id']) }}">{{ pl['title'] }}</a>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state"><h3>No playlists yet</h3><p>Create one above and start adding tracks.</p></div>
+{% endif %}
+
+{% endblock %}

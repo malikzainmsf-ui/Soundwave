@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}{{ playlist['title'] }} — SoundWave{% endblock %}
+{% block content %}
+
+<div class="section-head">
+  <h2>{{ playlist['title'] }}</h2>
+</div>
+<p class="track-stat" style="margin-bottom:20px;">By <a href="{{ url_for('profile', username=playlist['username']) }}" style="color:var(--accent)">{{ playlist['display_name'] }}</a> · {{ songs|length }} tracks</p>
+
+{% if songs %}
+<div class="track-list">
+  {% for song in songs %}
+    {% set rank = loop.index %}
+    {% include "_track_row.html" %}
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state"><h3>Empty playlist</h3><p>Add tracks from any song page.</p></div>
+{% endif %}
+
+{% endblock %}

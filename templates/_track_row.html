@@ -1,0 +1,21 @@
+<div class="track-row">
+  {% if rank %}<div class="track-rank">{{ rank }}</div>{% endif %}
+  <div class="song-cover-sm play-trigger"
+       data-id="{{ song['id'] }}"
+       data-src="{{ url_for('stream', filename=song['filename']) }}"
+       data-title="{{ song['title'] }}"
+       data-artist="{{ song['artist_name'] }}"
+       data-cover="{% if song['cover_filename'] %}{{ url_for('static', filename='covers/' ~ song['cover_filename']) }}{% endif %}">
+    {% if song['cover_filename'] %}
+      <img src="{{ url_for('static', filename='covers/' ~ song['cover_filename']) }}" alt="">
+    {% else %}
+      <span class="fallback-icon">♪</span>
+    {% endif %}
+  </div>
+  <div class="track-info">
+    <a class="s-title" href="{{ url_for('song_detail', song_id=song['id']) }}">{{ song['title'] }}</a><br>
+    <a class="s-artist" href="{{ url_for('profile', username=song['username']) }}">{{ song['artist_name'] }}</a>
+  </div>
+  <div class="track-stat">{{ song['play_count'] }} plays</div>
+  {% if 'like_count' in song.keys() %}<div class="track-stat">{{ song['like_count'] }} likes</div>{% endif %}
+</div>

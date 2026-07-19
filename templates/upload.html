@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Upload — SoundWave{% endblock %}
+{% block content %}
+<div class="form-card upload-form">
+  <h1>Upload a track</h1>
+  <form method="post" enctype="multipart/form-data">
+    <div class="field">
+      <label for="title">Track title</label>
+      <input type="text" id="title" name="title" required autofocus>
+    </div>
+    <div class="field">
+      <label for="artist_name">Artist name</label>
+      <input type="text" id="artist_name" name="artist_name" placeholder="{{ me['display_name'] if me else '' }}">
+    </div>
+    <div class="field">
+      <label for="genre">Genre</label>
+      <input type="text" id="genre" name="genre" placeholder="e.g. Lo-fi, Pop, Hip-hop">
+    </div>
+    <div class="field">
+      <label for="description">Description</label>
+      <textarea id="description" name="description" placeholder="What's this track about?"></textarea>
+    </div>
+    <div class="field">
+      <label for="audio_file">Audio file (mp3, wav, ogg, m4a — max 60MB)</label>
+      <input type="file" id="audio_file" name="audio_file" accept=".mp3,.wav,.ogg,.m4a" required>
+    </div>
+    <div class="field">
+      <label for="cover_file">Cover art (optional)</label>
+      <input type="file" id="cover_file" name="cover_file" accept=".png,.jpg,.jpeg,.webp">
+    </div>
+    <button type="submit" class="btn btn-primary" style="width:100%">Publish track</button>
+  </form>
+  <div class="form-foot">Only upload music you own the rights to, or have permission to share.</div>
+</div>
+{% endblock %}

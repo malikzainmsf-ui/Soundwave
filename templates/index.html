@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}SoundWave — Share your sound{% endblock %}
+{% block content %}
+
+<section class="hero">
+  <div class="hero-waveform" id="heroWave"></div>
+  <h1>Upload it tonight. Someone streams it by morning.</h1>
+  <p>SoundWave is a home for independent artists — upload original tracks, build a profile, and grow a real audience one play at a time.</p>
+  {% if not me %}
+    <a href="{{ url_for('register') }}" class="btn btn-primary">Create your artist page</a>
+  {% else %}
+    <a href="{{ url_for('upload') }}" class="btn btn-primary">Upload a track</a>
+  {% endif %}
+</section>
+
+<div class="section-head">
+  <h2>Trending now</h2>
+  <a href="{{ url_for('charts') }}">See charts →</a>
+</div>
+{% if trending %}
+<div class="song-grid">
+  {% for song in trending %}
+    {% include "_song_card.html" %}
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state"><h3>No plays yet</h3><p>Be the first to upload and start the charts.</p></div>
+{% endif %}
+
+<div class="section-head">
+  <h2>Fresh uploads</h2>
+</div>
+{% if recent %}
+<div class="song-grid">
+  {% for song in recent %}
+    {% include "_song_card.html" %}
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state"><h3>Quiet in here</h3><p>Upload the first track on SoundWave.</p></div>
+{% endif %}
+
+{% endblock %}
+{% block scripts %}
+<script>
+  const wave = document.getElementById("heroWave");
+  for (let i = 0; i < 60; i++) {
+    const bar = document.createElement("i");
+    const h = 8 + Math.round(Math.random() * 32);
+    bar.style.height = h + "px";
+    wave.appendChild(bar);
+  }
+</script>
+{% endblock %}

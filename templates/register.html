@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+{% block title %}Sign up — SoundWave{% endblock %}
+{% block content %}
+<div class="form-card">
+  <h1>Create your artist page</h1>
+  <form method="post">
+    <div class="field">
+      <label for="display_name">Display name</label>
+      <input type="text" id="display_name" name="display_name" placeholder="e.g. Midnight Echo" required autofocus>
+    </div>
+    <div class="field">
+      <label for="username">Username</label>
+      <input type="text" id="username" name="username" placeholder="e.g. midnightecho" required>
+    </div>
+    <div class="field">
+      <label for="email">Email</label>
+      <input type="email" id="email" name="email" required>
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" minlength="6" required>
+    </div>
+    <button type="submit" class="btn btn-primary" style="width:100%">Sign up</button>
+  </form>
+  <div class="form-foot">Already on SoundWave? <a href="{{ url_for('login') }}" style="color:var(--accent)">Log in</a></div>
+</div>
+{% endblock %}

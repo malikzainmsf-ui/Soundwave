@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}Log in — SoundWave{% endblock %}
+{% block content %}
+<div class="form-card">
+  <h1>Welcome back</h1>
+  <form method="post">
+    <div class="field">
+      <label for="identifier">Username or email</label>
+      <input type="text" id="identifier" name="identifier" required autofocus>
+    </div>
+    <div class="field">
+      <label for="password">Password</label>
+      <input type="password" id="password" name="password" required>
+    </div>
+    <button type="submit" class="btn btn-primary" style="width:100%">Log in</button>
+  </form>
+  <div class="form-foot">New here? <a href="{{ url_for('register') }}" style="color:var(--accent)">Create an account</a></div>
+</div>
+{% endblock %}

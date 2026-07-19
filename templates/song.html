@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block title %}{{ song['title'] }} — SoundWave{% endblock %}
+{% block content %}
+
+<div class="song-detail-head">
+  <div class="song-detail-cover play-trigger"
+       data-id="{{ song['id'] }}"
+       data-src="{{ url_for('stream', filename=song['filename']) }}"
+       data-title="{{ song['title'] }}"
+       data-artist="{{ song['artist_name'] }}"
+       data-cover="{% if song['cover_filename'] %}{{ url_for('static', filename='covers/' ~ song['cover_filename']) }}{% endif %}"
+       style="cursor:pointer">
+    {% if song['cover_filename'] %}
+      <img src="{{ url_for('static', filename='covers/' ~ song['cover_filename']) }}" alt="">
+    {% else %}
+      <span class="fallback-icon" style="font-size:3rem">♪</span>
+    {% endif %}
+  </div>
+  <div class="song-detail-info">
+    <h1>{{ song['title'] }}</h1>
+    <a class="artist-link" href="{{ url_for('profile', username=song['username']) }}">{{ song['artist_name'] }}</a>
+    <div class="song-detail-actions">
+      <button class="btn btn-primary play-trigger"
+              data-id="{{ song['id'] }}"
+              data-src="{{ url_for('stream', filename=song['filename']) }}"
+              data-title="{{ song['title'] }}"
+              data-artist="{{ song['artist_name'] }}"
+              data-cover="{% if song['cover_filename'] %}{{ url_for('static', filename='covers/' ~ song['cover_filename']) }}{% endif %}">
+        ▶ Play
+      </button>
+      <button class="btn like-btn {{ 'liked' if liked else '' }}" data-id="{{ song['id'] }}">
+        ♥ <span class="like-count">{{ like_count }}</span>
+      </button>
+      {% if me %}
+      <div class="playlist-picker">
+        <button class="btn playlist-picker-toggle" type="button">+ Add to playlist</button>
+        <div class="playlist-picker-menu">
+          {% if my_playlists %}
+            {% for pl in my_playlists %}
+              <form method="post" action="{{ url_for('add_to_playlist', playlist_id=pl['id']) }}">
+                <input type="hidden" name="song_id" value="{{ song['id'] }}">
+                <button type="submit">{{ pl['title'] }}</button>
+              </form>
+            {% endfor %}
+          {% else %}
+            <div style="padding:8px; color:var(--text-dim); font-size:0.85rem;">No playlists yet — <a href="{{ url_for('playlists') }}" style="color:var(--accent)">create one</a></div>
+          {% endif %}
+        </div>
+      </div>
+      {% endif %}
+    </div>
+    {% if song['genre'] %}<div class="track-stat">Genre: {{ song['genre'] }}</div>{% endif %}
+    <div class="track-stat">{{ song['play_count'] }} plays</div>
+    {% if song['description'] %}<p class="song-desc">{{ song['description'] }}</p>{% endif %}
+  </div>
+</div>
+
+<div class="comments-section">
+  <div class="section-head"><h2>Comments ({{ comments|length }})</h2></div>
+  {% if me %}
+  <form class="comment-form" method="post" action="{{ url_for('add_comment', song_id=song['id']) }}">
+    <input type="text" name="body" placeholder="Leave a comment…" required>
+    <button type="submit" class="btn btn-primary">Post</button>
+  </form>
+  {% else %}
+  <p class="track-stat"><a href="{{ url_for('login') }}" style="color:var(--accent)">Log in</a> to leave a comment.</p>
+  {% endif %}
+
+  {% for c in comments %}
+  <div class="comment">
+    <div class="comment-avatar" style="background:{{ c['avatar_color'] }}">{{ c['display_name'][0]|upper }}</div>
+    <div>
+      <div class="comment-body"><strong>{{ c['display_name'] }}</strong> {{ c['body'] }}</div>
+      <div class="comment-meta">{{ c['created_at'] }}</div>
+    </div>
+  </div>
+  {% else %}
+  <p class="track-stat">No comments yet. Be the first to say something.</p>
+  {% endfor %}
+</div>
+
+{% endblock %}

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block title %}Charts — SoundWave{% endblock %}
+{% block content %}
+
+<div class="section-head"><h2>Top by plays</h2></div>
+{% if by_plays %}
+<div class="track-list">
+  {% for song in by_plays %}
+    {% set rank = loop.index %}
+    {% include "_track_row.html" %}
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state"><h3>No tracks yet</h3></div>
+{% endif %}
+
+<div class="section-head"><h2>Top by likes</h2></div>
+{% if by_likes %}
+<div class="track-list">
+  {% for song in by_likes %}
+    {% set rank = loop.index %}
+    {% include "_track_row.html" %}
+  {% endfor %}
+</div>
+{% else %}
+<div class="empty-state"><h3>No tracks yet</h3></div>
+{% endif %}
+
+{% endblock %}

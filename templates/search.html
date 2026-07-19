@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+{% block title %}Search — SoundWave{% endblock %}
+{% block content %}
+
+<div class="section-head"><h2>Results for "{{ q }}"</h2></div>
+
+{% if q %}
+  {% if songs %}
+  <div class="section-head"><h2 style="font-size:1rem;">Tracks</h2></div>
+  <div class="song-grid">
+    {% for song in songs %}
+      {% include "_song_card.html" %}
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if artists %}
+  <div class="section-head"><h2 style="font-size:1rem;">Artists</h2></div>
+  <div class="track-list">
+    {% for a in artists %}
+    <div class="track-row">
+      <div class="profile-avatar" style="width:36px;height:36px;font-size:1rem;background:{{ a['avatar_color'] }}">{{ a['display_name'][0]|upper }}</div>
+      <div class="track-info">
+        <a class="s-title" href="{{ url_for('profile', username=a['username']) }}">{{ a['display_name'] }}</a><br>
+        <span class="s-artist">@{{ a['username'] }}</span>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %}
+
+  {% if not songs and not artists %}
+  <div class="empty-state"><h3>No results</h3><p>Try a different search term.</p></div>
+  {% endif %}
+{% else %}
+  <div class="empty-state"><h3>Search SoundWave</h3><p>Find tracks, artists, or genres.</p></div>
+{% endif %}
+
+{% endblock %}

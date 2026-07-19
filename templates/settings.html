@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}Settings — SoundWave{% endblock %}
+{% block content %}
+<div class="form-card">
+  <h1>Edit profile</h1>
+  <form method="post">
+    <div class="field">
+      <label for="display_name">Display name</label>
+      <input type="text" id="display_name" name="display_name" value="{{ me['display_name'] }}" required>
+    </div>
+    <div class="field">
+      <label for="bio">Bio</label>
+      <textarea id="bio" name="bio">{{ me['bio'] }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary" style="width:100%">Save changes</button>
+  </form>
+</div>
+{% endblock %}

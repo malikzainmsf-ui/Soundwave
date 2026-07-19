@@ -1,0 +1,22 @@
+<div class="song-card">
+  <div class="song-cover play-trigger"
+       data-id="{{ song['id'] }}"
+       data-src="{{ url_for('stream', filename=song['filename']) }}"
+       data-title="{{ song['title'] }}"
+       data-artist="{{ song['artist_name'] }}"
+       data-cover="{% if song['cover_filename'] %}{{ url_for('static', filename='covers/' ~ song['cover_filename']) }}{% endif %}">
+    {% if song['cover_filename'] %}
+      <img src="{{ url_for('static', filename='covers/' ~ song['cover_filename']) }}" alt="">
+    {% else %}
+      <span class="fallback-icon">♪</span>
+    {% endif %}
+    <div class="play-overlay">
+      <svg viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+    </div>
+  </div>
+  <div class="song-meta">
+    <a class="s-title" href="{{ url_for('song_detail', song_id=song['id']) }}">{{ song['title'] }}</a>
+    <a class="s-artist" href="{{ url_for('profile', username=song['username']) }}">{{ song['artist_name'] }}</a>
+    <div class="s-stats">{{ song['play_count'] }} plays</div>
+  </div>
+</div>
